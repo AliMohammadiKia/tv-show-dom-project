@@ -18,7 +18,7 @@ function renderCards(data) {
   cards.classList = "cards mt-5 flex flex-wrap";
 
   data.map(({ name, image, season, number, summary }) => {
-    // summary = summary.slice(3, -4);
+    summary = summary.slice(3, -4);
     console.log(summary);
     const card = `
       <div class="w-3/12 p-5">
