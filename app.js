@@ -37,8 +37,8 @@ function renderCards(data) {
       name.length > 25 ? name.substring(0, 25) + "..." : name
     }</p>
           <p class="text-center">
-            S${season > 10 ? season : "0" + season}E${
-      number > 10 ? number : "0" + number
+            S${season > 9 ? season : "0" + season}E${
+      number > 9 ? number : "0" + number
     }
           </p>
           <p class="mt-2 mb-5 px-4 h-20">
@@ -60,9 +60,9 @@ function renderCards(data) {
 function renderOptions(data) {
   data.map(({ name, season, number, id }) => {
     const option = `
-      <option value="${id}">${season > 10 ? season : "0" + season}E${
-      number > 10 ? number : "0" + number
-    }${name}</option>
+      <option value="${id}">${season > 9 ? season : "0" + season}E${
+      number > 9 ? number : "0" + number
+    } - ${name}</option>
     `;
     select.innerHTML += option;
   });
