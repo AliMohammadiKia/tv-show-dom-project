@@ -5,12 +5,27 @@ const select = document.querySelector("select");
 let episodes = null;
 
 // functions
-window.addEventListener("DOMContentLoaded", fetchApi());
+fetchApi();
 async function fetchApi() {
+  loading();
   const response = await fetch("https://api.tvmaze.com/shows/82/episodes");
   episodes = await response.json();
   renderCards(episodes);
   renderOptions(episodes);
+  removeLoading();
+}
+
+function loading() {
+  const img = document.createElement("img");
+  img.classList =
+    "loading absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2";
+  img.src = "./asset/img/loading.svg";
+  container.appendChild(img);
+}
+
+function removeLoading() {
+  const loading = document.querySelector(".loading");
+  loading && loading.remove();
 }
 
 function renderCards(data) {
@@ -19,6 +34,7 @@ function renderCards(data) {
 
   data.map(({ name, image, season, number, summary, url, rating }) => {
     summary = summary.slice(3, -4);
+
     const card = `
       <div class="w-3/12 p-5">
         <div class="bg-black text-white rounded-lg overflow-hidden shadow-lg hover:scale-105 transition-all duration-400 hover:shadow-xl">
@@ -77,6 +93,8 @@ function searchEpisode(data, value) {
         name.toLowerCase().indexOf(value.toLowerCase()) !== -1 ||
         summary.toLowerCase().indexOf(value.toLowerCase()) !== -1
     );
+    const notFound = document.querySelector(".not-found");
+    filterEpisodes.length === 0 ? notFound() : notFound && notFound.remove();
     renderCards(filterEpisodes);
   } else {
     cards && cards.remove();
@@ -94,6 +112,14 @@ function selectEpisode(data, value) {
     cards && cards.remove();
     renderCards(episodes);
   }
+}
+
+function notFound() {
+  const p = document.createElement("p");
+  p.innerText = "Not Found!";
+  p.classList =
+    "not-found text-center bg-orange-400 py-2 px-10 mx-24 rounded-md mt-24 text-white font-bold";
+  container.appendChild(p);
 }
 
 // events
