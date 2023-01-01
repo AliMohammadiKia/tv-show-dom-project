@@ -29,6 +29,9 @@ function removeLoading() {
 }
 
 function renderCards(data) {
+  document.querySelector(".not-found") &&
+    document.querySelector(".not-found").remove();
+
   const cards = document.createElement("div");
   cards.classList = "cards mt-5 flex flex-wrap";
 
@@ -93,12 +96,7 @@ function searchEpisode(data, value) {
         name.toLowerCase().indexOf(value.toLowerCase()) !== -1 ||
         summary.toLowerCase().indexOf(value.toLowerCase()) !== -1
     );
-    if (filterEpisodes.length) {
-      removeNotFound();
-      renderCards(filterEpisodes);
-    } else {
-      notFound();
-    }
+    filterEpisodes.length ? renderCards(filterEpisodes) : notFound();
   } else {
     cards && cards.remove();
     renderCards(episodes);
@@ -118,6 +116,9 @@ function selectEpisode(data, value) {
 }
 
 function notFound() {
+  document.querySelector(".not-found") &&
+    document.querySelector(".not-found").remove();
+
   const div = document.createElement("div");
   div.innerHTML = `
     <p>Ooops!</p>
@@ -125,11 +126,8 @@ function notFound() {
   `;
   div.classList =
     "not-found absolute flex flex-col space-y-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2/6 py-4 bg-gray-200 text-gray-600 text-center rounded-md";
-  document.body.appendChild(div);
-}
 
-function removeNotFound() {
-  document.querySelector(".not-found").remove();
+  container.appendChild(div);
 }
 
 // events
