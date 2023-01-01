@@ -30,13 +30,11 @@ function removeLoading() {
 }
 
 function renderCards(data) {
-  document.querySelector(".not-found") &&
-    document.querySelector(".not-found").remove();
+  removeNotFound();
+  updateResults(data.length);
 
   const cards = document.createElement("div");
   cards.classList = "cards mt-5 flex flex-wrap";
-
-  updateResults(data.length);
 
   data.map(({ name, image, season, number, summary, url, rating }) => {
     summary = summary.slice(3, -4);
@@ -119,10 +117,9 @@ function selectEpisode(data, value) {
 }
 
 function notFound() {
-  document.querySelector(".not-found") &&
-    document.querySelector(".not-found").remove();
-
+  removeNotFound();
   updateResults(0);
+
   const div = document.createElement("div");
   div.innerHTML = `
     <p>Ooops!</p>
@@ -132,6 +129,11 @@ function notFound() {
     "not-found absolute flex flex-col space-y-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2/6 py-4 bg-gray-200 text-gray-600 text-center rounded-md";
 
   container.appendChild(div);
+}
+
+function removeNotFound() {
+  const notFound = document.querySelector(".not-found");
+  notFound && notFound.remove();
 }
 
 function updateResults(number) {
