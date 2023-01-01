@@ -20,7 +20,7 @@ function loading() {
   img.classList =
     "loading absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2";
   img.src = "./asset/img/loading.svg";
-  container.appendChild(img);
+  document.body.appendChild(img);
 }
 
 function removeLoading() {
@@ -93,9 +93,12 @@ function searchEpisode(data, value) {
         name.toLowerCase().indexOf(value.toLowerCase()) !== -1 ||
         summary.toLowerCase().indexOf(value.toLowerCase()) !== -1
     );
-    const notFound = document.querySelector(".not-found");
-    filterEpisodes.length === 0 ? notFound() : notFound && notFound.remove();
-    renderCards(filterEpisodes);
+    if (filterEpisodes.length) {
+      removeNotFound();
+      renderCards(filterEpisodes);
+    } else {
+      notFound();
+    }
   } else {
     cards && cards.remove();
     renderCards(episodes);
@@ -115,11 +118,18 @@ function selectEpisode(data, value) {
 }
 
 function notFound() {
-  const p = document.createElement("p");
-  p.innerText = "Not Found!";
-  p.classList =
-    "not-found text-center bg-orange-400 py-2 px-10 mx-24 rounded-md mt-24 text-white font-bold";
-  container.appendChild(p);
+  const div = document.createElement("div");
+  div.innerHTML = `
+    <p>Ooops!</p>
+    <p>Not found episode!</p>
+  `;
+  div.classList =
+    "not-found absolute flex flex-col space-y-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2/6 py-4 bg-gray-200 text-gray-600 text-center rounded-md";
+  document.body.appendChild(div);
+}
+
+function removeNotFound() {
+  document.querySelector(".not-found").remove();
 }
 
 // events
